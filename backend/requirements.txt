@@ -3,6 +3,7 @@ certifi==2021.10.8
 chardet==3.0.4
 charset-normalizer==2.0.10
 Django==4.0.1
+django-cors-headers==3.11.0
 djangorestframework==3.13.1
 googletrans==3.0.0
 h11==0.9.0
