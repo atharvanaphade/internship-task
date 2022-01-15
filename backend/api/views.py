@@ -11,6 +11,8 @@ from .utils import *
 
 # Create your views here.
 
+error_message = 'Error Occured'
+
 class ProjectListCreateAPI(ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -22,6 +24,9 @@ class ProjectEditAPI(RetrieveUpdateDestroyAPIView):
     permission_classes = (AllowAny, )
 
 class FetchSummaryAPI(GenericAPIView):
+    """
+    Fetch the Summary of the Wikipedia Article
+    """
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = (AllowAny, )
@@ -36,11 +41,14 @@ class FetchSummaryAPI(GenericAPIView):
             ret_dict['title'] = project.wiki_title
             status = 200
         except:
-            ret_dict['status'] = 'Error Occured'
+            ret_dict['status'] = error_message
             status = 400
         return Response(ret_dict, status=status)
 
 class SentencesAPI(RetrieveUpdateDestroyAPIView):
+    """
+    API to create sentences in the Persistent Storage.
+    """
     queryset = Sentence.objects.all()
     serializer_class = SentenceSeraializer
     permissions = (AllowAny, )
@@ -73,7 +81,7 @@ class SentencesAPI(RetrieveUpdateDestroyAPIView):
             ret_dict['content'] = sentences
             status = 200
         except:
-            ret_dict['status'] = 'Error Occured'
+            ret_dict['status'] = error_message
             status = 400
         return Response(ret_dict, status=status)
     
@@ -88,5 +96,6 @@ class SentencesAPI(RetrieveUpdateDestroyAPIView):
             ret_dict['status'] = 'Changed'
             status = 202
         except:
+            ret_dict['status'] = error_message
             status = 400
         return Response(ret_dict, status=status)

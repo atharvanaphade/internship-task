@@ -9,6 +9,11 @@ class Project(models.Model):
     wiki_title = models.TextField(default='')
     target_lang = models.CharField(max_length=10, choices=langs, default='hi')
 
+    class Meta:
+        permissions = (
+            ('assigned_to', 'Annotator can access this Project'),
+        )
+
     def __str__(self):
         return str(self.pk) + '_' + str(self.wiki_title) + '_' + str(self.target_lang)
 

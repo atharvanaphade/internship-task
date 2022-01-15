@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button, Center, Divider, Heading, HStack, Input, InputGroup, Select, Spacer, Stack, Text, VStack, Link } from '@chakra-ui/react';
+import { Box, Button, Center, Divider, Heading, HStack, Input, InputGroup, Select, Spacer, Stack, Text, VStack } from '@chakra-ui/react';
 import axios from 'axios';
 
 import data from '../lib/variables';
@@ -11,16 +11,17 @@ const Home = () => {
     const [loading, setloading] = React.useState(true);
 
     const onSubmit = (e) => {
-        // const project = {
-        //     wiki_title: article,
-        //     lang: language,
-        // }
-        // let list = JSON.parse(localStorage.getItem('projects'));
-        // if (list !== null) {
-        //     localStorage.setItem('projects', JSON.stringify([...list, project]));
-        // } else {
-        //     localStorage.setItem('projects', JSON.stringify([project]));
-        // }
+        const project = {
+            wiki_title: article,
+            target_lang: language,
+        }
+        axios.post(data.api + 'create_project/', project)
+        .then(res => {
+            console.log(res.data);
+        })
+        .catch(err => {
+            console.log(err);
+        });
         window.location.reload();
     };
 
@@ -70,7 +71,7 @@ const Home = () => {
             </Center>
             <Center my={5}>
                 <VStack w={['75%', '50%']} mx={4}>
-                    {projects.map(project => {
+                    {projects.length !== 0 ? projects.map(project => {
                         return (
                             <Box borderRadius='xl' py={4} bg='orange.400' w='100%' key={project.id}>
                                 <HStack mx={5} spacing={3}>
@@ -84,7 +85,13 @@ const Home = () => {
                                 </HStack>
                             </Box>
                         );
-                    })}
+                    }) : (
+                        <>
+                            <Text>
+                                No Content
+                            </Text>
+                        </>
+                    )}
                 </VStack>
             </Center>
         </>
